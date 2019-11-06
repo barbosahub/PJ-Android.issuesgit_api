@@ -23,16 +23,17 @@ conter os seguintes elementos:
 ## Requisitos
 
 * Ser escrito em Kotlin
-* Deve ter injeção de dependência com Dagger2
-* Deve utilizar RXJava
+* Deve ter injeção de dependência com Dagger2 ou Koin
+* Deve utilizar RxJava 2
 * Testes Unitários
-* Clean Architecture (MVP)
+* Clean Architecture (MVP ou MVVM)
 * Chamadas de REST com Retrofit2
 
 ## Importante conhecer
 
 * AndroidX
 * Room
+* LiveData
 * Firebase
 
 ## Pontos de avaliação
