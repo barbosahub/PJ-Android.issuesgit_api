@@ -20,27 +20,25 @@ conter os seguintes elementos:
     * Data de criação
     * Um botão que abre o browser com o link issue do site do github
 
-## Requisitos
+## Requisitos obrigatórios
 
-* Ser escrito em Kotlin
-* Deve ter injeção de dependência com Dagger2 ou Koin
-* Deve utilizar RxJava 2
-* Testes Unitários
-* Clean Architecture (MVP ou MVVM)
-* Chamadas de REST com Retrofit2
+* Kotlin
+* RxJava 2
+* Koin (preferencialmente) ou Dagger2
+* Testes Unitários (de preferência com JUnit / MockK)
+* OkHttp3 (preferencialmente) ou Retrofit 2
 
-## Importante conhecer
+## Requisitos opcionais
 
+* MVVM
 * AndroidX
-* Room
-* LiveData
-* Firebase
+* Coroutines
+* LiveData / Navigation / Action Components
 
 ## Pontos de avaliação
 
 * Como você organiza seus arquivos, métodos, nomeia variáveis, lida com o seu
-código como um todo são pontos observados. Seja cuidadoso, utilize boas
-práticas e padrões.
+código como um todo são pontos observados. 
+* Seja cuidadoso, utilize boas práticas e padrões.
 * Siga o guideline do Material Design, bem como respeite as boas práticas do
-Kotlin.
-* Codifique como você gostaria de trabalhar.
+Kotlin. Codifique como você gostaria de trabalhar.
