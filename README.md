@@ -4,26 +4,22 @@
 ## Utilizando Consultas
 
 <p align="justify">
-O desenvolvimento do aplicativo foi baseado em realizar uma aplicação Android Nativa em Kotlin que consuma a API do Github Issues ( https://developer.github.com/v3/issues/ ), usando como base o repositório
-do kotlin ( https://github.com/JetBrains/kotlin )
+O desenvolvimento do aplicativo foi baseado em realizar uma aplicação Android Nativa em Kotlin que consuma a API do Github Issues https://developer.github.com/v3/issues/, usando como base o repositório
+do kotlin https://github.com/JetBrains/kotlin
 </p>
 
+- [x] Tela com a lista de issues do repositório
+- [x] Tela com mais detalhes do user selecionado
 
-
-- [ ] Tela com a lista de issues do repositório
-- [ ] Tela com mais detalhes do user selecionado
-
-- [ ] Kotlin
+- [x] Kotlin
 - [ ]  Testes Unitários (JUnit)
-- [ ] Retrofit2
+- [x] Retrofit2
 - [ ] MVVM
-- [ ] Link para Github
-- [ ]  RxJava 2
+- [x] Link para Github
 - [ ] Koin
 - [ ] AndroidX
-- [ ]  Coroutines
+- [ ] Coroutines
 - [ ] LiveData / Navigation / Action Components
-
 
 
 ## Sobre
