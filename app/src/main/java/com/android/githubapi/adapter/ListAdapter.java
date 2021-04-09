@@ -31,34 +31,28 @@ public class ListAdapter extends ArrayAdapter<GithubApi> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.item_menu_layout, parent, false);
-
 
         ImageView image = (ImageView) rowView.findViewById(R.id.imageView);
         TextView title = (TextView) rowView.findViewById(R.id.txt_title);
         TextView state = (TextView) rowView.findViewById(R.id.txt_state);
 
         Uri imageUri = Uri.parse(elements.get(position).getUser().getAvatarUrl());
-
-
         new DownloadImageTask(image).execute(elements.get(position).getUser().getAvatarUrl());
+        int color = (elements.get(position).getState().contains("open")) ?  Color.GREEN  : Color.RED;
 
         image.setImageURI(imageUri);
         title.setText(elements.get(position).getTitle());
-
-        if (elements.get(position).getState().contains("open"))  state.setTextColor(Color.GREEN);
-        else state.setTextColor(Color.RED);
-
         state.setText(elements.get(position).getState());
+        state.setTextColor(color);
 
         return rowView;
     }
 
-    public static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+     public static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {

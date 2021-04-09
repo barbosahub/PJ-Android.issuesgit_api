@@ -17,5 +17,6 @@
     <style name="AppTheme.GithubApi" parent="Theme.AppCompat.Light">
         <item name="android:background">@color/color_dark_100</item>
         <item name="android:statusBarColor">@color/color_dark_100</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 </resources>

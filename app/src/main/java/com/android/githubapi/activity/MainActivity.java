@@ -17,6 +17,7 @@ import com.android.githubapi.adapter.ListAdapter;
 import com.android.githubapi.interfaces.IGitApi;
 import com.android.githubapi.models.GithubApi;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public final static String DATA = "package com.android.githubapi.activity.DATA";
     public final static String IMAGE = "package com.android.githubapi.activity.IMAGE";
     public final static String DESCRIPTION = "package com.android.githubapi.activity.DESCRIPTION";
+    public final static String AUTHOR = "package com.android.githubapi.activity.AUTHOR";
+    public final static String URL = "package com.android.githubapi.activity.URL";
 
 
     @Override
@@ -82,10 +85,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                             Intent intent = new Intent(MainActivity.this, Details.class);
-                            intent.putExtra(TITLE, list.get(i).getTitle());
-                            intent.putExtra(DATA, list.get(i).getCreatedAt());
-                            intent.putExtra(DESCRIPTION, list.get(i).getBody());
-                            intent.putExtra(IMAGE, list.get(i).getUser().getAvatarUrl());
+                                intent.putExtra(TITLE, list.get(i).getTitle());
+                                intent.putExtra(DATA, list.get(i).getCreatedAt());
+                                intent.putExtra(DESCRIPTION, list.get(i).getBody());
+                                intent.putExtra(IMAGE, list.get(i).getUser().getAvatarUrl());
+                                intent.putExtra(AUTHOR, list.get(i).getUser().getLogin());
+                                intent.putExtra(URL, list.get(i).getUser().getHtmlUrl());
                             startActivity(intent);
                         }
                     });
