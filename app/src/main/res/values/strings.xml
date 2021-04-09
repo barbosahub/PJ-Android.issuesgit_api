@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GithubApi</string>
+    <string name="Title">Title</string>
+    <string name="State">State</string>
+    <string name="Description">Description</string>
+    <string name="Created">Created: </string>
+</resources>
