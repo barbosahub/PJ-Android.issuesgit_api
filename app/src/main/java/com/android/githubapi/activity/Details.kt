@@ -1,6 +1,7 @@
 package com.android.githubapi.activity
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,6 +10,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +20,10 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("DEPRECATION")
 class Details : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_GithubApi)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
@@ -43,7 +47,7 @@ class Details : AppCompatActivity() {
 
         //region imageView
         DownloadImageFromInternet(findViewById(R.id.imageView)).execute(imageUri.toString())
-        mImageGit.setOnClickListener { v: View? ->
+        mImageGit.setOnClickListener {
             val viewIntent = Intent(VIEW, Uri.parse(url))
             startActivity(viewIntent)
         }

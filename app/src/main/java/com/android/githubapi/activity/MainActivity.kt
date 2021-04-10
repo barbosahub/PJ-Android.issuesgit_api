@@ -1,17 +1,23 @@
 package com.android.githubapi.activity
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
+import android.view.Window
+import android.widget.*
+import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.githubapi.R
 import com.android.githubapi.adapter.ListAdapter
 import com.android.githubapi.interfaces.IGitApi
@@ -32,14 +38,22 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
     //endregion
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme_GithubApi)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         context = this@MainActivity
         listView = findViewById(R.id.listview)
         findAll()
+
+        val pullToRefresh = findViewById<View>(R.id.pulltorefresh) as SwipeRefreshLayout
+
+        pullToRefresh.setOnRefreshListener {
+            findAll() // your code
+            pullToRefresh.isRefreshing = false
+        }
     }
 
-    //region ListView Data
+    //region listView Data
     private fun findAll() {
         //region variables
         val logging = HttpLoggingInterceptor()
@@ -71,8 +85,10 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
                 if (list != null) {
                     val adapter = ListAdapter(this@MainActivity, list)
                     listView!!.adapter = adapter
+
                     listView!!.onItemClickListener =
-                        OnItemClickListener { adapterView, view, i, l ->
+
+                        AdapterView.OnItemClickListener { adapterView, view, i, l ->
                             val intent = Intent(this@MainActivity, Details::class.java)
                             intent.putExtra(TITLE, list[i].title)
                             intent.putExtra(DATA, list[i].createdAt)
@@ -82,6 +98,23 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
                             intent.putExtra(URL, list[i].user?.htmlUrl)
                             startActivity(intent)
                         }
+
+                    listView!!.setOnItemLongClickListener(OnItemLongClickListener { parent, view, i, id ->
+                        val dialog = Dialog(this@MainActivity)
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                        dialog.setContentView(R.layout.item_menu_image_dialog)
+
+                        val imageUri = Uri.parse(list[i].user?.avatarUrl)
+
+                        DownloadImageFromInternet(dialog.findViewById(R.id.imageDialog)).execute(
+                            imageUri.toString()
+                        )
+
+                        dialog.show()
+
+                        true
+                    })
+
                 }
             }
 
@@ -92,6 +125,33 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
             }
         })
         //endregion
+    }
+
+
+    //endregion
+
+
+    //region DownloadImage
+    @SuppressLint("StaticFieldLeak")
+    @Suppress("DEPRECATION")
+    private inner class DownloadImageFromInternet(var imageView: ImageView) :
+        AsyncTask<String, Void, Bitmap?>() {
+        override fun doInBackground(vararg urls: String): Bitmap? {
+            val imageURL = urls[0]
+            var image: Bitmap? = null
+            try {
+                val `in` = java.net.URL(imageURL).openStream()
+                image = BitmapFactory.decodeStream(`in`)
+            } catch (e: Exception) {
+                Log.e("Error Message", e.message.toString())
+                e.printStackTrace()
+            }
+            return image
+        }
+
+        override fun onPostExecute(result: Bitmap?) {
+            imageView.setImageBitmap(result)
+        }
     }
     //endregion
 
@@ -109,6 +169,7 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
     }
 
 }
+
 private fun <T> Call<T>.enqueue(callback: Callback<List<GithubApi>?>) {
 
 }

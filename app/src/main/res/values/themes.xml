@@ -19,4 +19,12 @@
         <item name="android:statusBarColor">@color/color_dark_100</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
+
+
+    <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:background">@color/color_dark_100</item>
+        <item name="android:statusBarColor">@color/color_dark_100</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
 </resources>

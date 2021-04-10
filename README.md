@@ -20,6 +20,7 @@ do kotlin https://github.com/JetBrains/kotlin
 - [ ] AndroidX
 - [ ] Coroutines
 - [ ] LiveData / Navigation / Action Components
+- [ ] PullToRefresh
 
 
 ## Sobre
