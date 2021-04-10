@@ -13,15 +13,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.*
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ImageView
+import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.githubapi.R
 import com.android.githubapi.adapter.ListAdapter
 import com.android.githubapi.interfaces.IGitApi
 import com.android.githubapi.models.GithubApi
+import com.google.firebase.iid.FirebaseInstanceId
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -51,6 +56,21 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
             findAll() // your code
             pullToRefresh.isRefreshing = false
         }
+
+        onTokenRefresh()
+
+
+    }
+
+    fun onTokenRefresh() {
+        // Get updated InstanceID token.
+        val refreshedToken: String? = FirebaseInstanceId.getInstance().getToken()
+
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        Log.d("Token",refreshedToken.toString())
     }
 
     //region listView Data

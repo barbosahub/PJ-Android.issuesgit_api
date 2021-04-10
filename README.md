@@ -12,8 +12,9 @@ do kotlin https://github.com/JetBrains/kotlin
 - [x] Tela com mais detalhes do user selecionado
 
 - [x] Kotlin
-- [ ]  Testes Unitários (JUnit)
 - [x] Retrofit2
+- [x] Firebase FCM
+- [ ]  Testes Unitários (JUnit)
 - [ ] MVVM
 - [x] Link para Github
 - [ ] Koin
