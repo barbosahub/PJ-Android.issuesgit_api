@@ -20,6 +20,12 @@
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
 
+    <style name="Progressbar" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">7dp</item>
+        <item name="android:indeterminate">true</item>
+    </style>
 
     <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBar">false</item>

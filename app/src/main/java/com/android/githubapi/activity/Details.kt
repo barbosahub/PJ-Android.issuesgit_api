@@ -53,7 +53,7 @@ class Details : AppCompatActivity() {
         }
         //endregion
 
-        //region setComponents
+        //region setcomponents
         mTitle.text = title
         mDate.text = date_after
         mImage.setImageURI(imageUri)
@@ -62,7 +62,7 @@ class Details : AppCompatActivity() {
         //endregion
     }
 
-    //region FormatDate
+    //region format date
     companion object {
         const val VIEW = "android.intent.action.VIEW"
         fun formatDate(inputFormat: String?, outputFormat: String?, inputDate: String?): String {
@@ -80,7 +80,7 @@ class Details : AppCompatActivity() {
     }
     //endregion
 
-    //region DownloadImage
+    //region download image
     @SuppressLint("StaticFieldLeak")
     @Suppress("DEPRECATION")
     private inner class DownloadImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {

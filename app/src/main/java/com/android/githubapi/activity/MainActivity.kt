@@ -10,18 +10,18 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.githubapi.R
@@ -44,7 +44,6 @@ import java.util.*
 class MainActivity : AppCompatActivity(), OnItemSelectedListener,
     NavigationView.OnNavigationItemSelectedListener {
     //region variables
-    private var dialog: ProgressDialog? = null
     private var listView: ListView? = null
     private var context = this@MainActivity
     //endregion
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_menu_drawer)
         findViewById()
-
         initDrawer()
 
         //region navigation view
@@ -62,17 +60,22 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
 
         //region pulltorefresh
         val pullToRefresh = findViewById<View>(R.id.pulltorefresh) as SwipeRefreshLayout
+
         pullToRefresh.setOnRefreshListener {
-            findAll() // your code
+            progressBar(true)
             pullToRefresh.isRefreshing = false
+            findAll()
         }
         //endregion
 
-
-
-
+        progressBar(true)
         findAll()
         onTokenRefresh()
+    }
+
+    private fun progressBar(isVisible : Boolean){
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar) as ProgressBar
+        progressBar.isVisible = isVisible
     }
 
     private fun findViewById(){
@@ -87,6 +90,7 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
 
         val toggle = ActionBarDrawerToggle(this,drawerLayout, toolbar,R.string.Open_Drawer,R.string.Close_Drawer)
         drawerLayout.addDrawerListener(toggle)
+        toggle?.drawerArrowDrawable?.color = ContextCompat.getColor(context, R.color.white)
         toggle.syncState()
     }
 
@@ -137,26 +141,16 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
         val call = iGitApi.findList()
         //endregion
 
-        //region loading...
-        dialog = ProgressDialog(this@MainActivity)
-        dialog!!.setMessage("Loading...")
-        dialog!!.setCancelable(false)
-        dialog!!.show()
-        //endregion
-
-        //region enqueue
         call.enqueue(object : Callback<List<GithubApi>?> {
             override fun onResponse(
                 call: Call<List<GithubApi>?>,
                 response: Response<List<GithubApi>?>
             ) {
-                if (dialog!!.isShowing) dialog!!.dismiss()
                 val list = response.body()
                 if (list != null) {
                     val adapter = ListAdapter(this@MainActivity, list)
                     listView!!.adapter = adapter
-
-                    showToast("Success")
+                    progressBar(false)
                     listView!!.onItemClickListener =
                         AdapterView.OnItemClickListener { adapterView, view, i, l ->
                             val intent = Intent(this@MainActivity, Details::class.java)
@@ -189,14 +183,11 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
             }
 
             override fun onFailure(call: Call<List<GithubApi>?>, t: Throwable) {
-                if (dialog!!.isShowing) dialog!!.dismiss()
                 showToast(t.message.toString())
             }
         })
-        //endregion
+
     }
-
-
     //endregion
 
     //region convert image to bitmap
@@ -244,6 +235,7 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
         const val AUTHOR = "package com.android.githubapi.activity.AUTHOR"
         const val URL = "package com.android.githubapi.activity.URL"
     }
+
     //endregion
 
 }
