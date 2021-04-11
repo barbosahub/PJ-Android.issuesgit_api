@@ -1,20 +1,25 @@
-## Descrição do Projeto
+## DescriÃ§Ã£o do Projeto
 <p align="justify"> Objetivo do projeto: Realizar consumo de API do Github Issues
 
 ## Utilizando Consultas
 
 <p align="justify">
-O desenvolvimento do aplicativo foi baseado em realizar uma aplicação Android Nativa em Kotlin que consuma a API do Github Issues https://developer.github.com/v3/issues/, usando como base o repositório
+O desenvolvimento do aplicativo foi baseado em realizar uma aplicaÃ§Ã£o Android Nativa em Kotlin que consuma a API do Github Issues https://developer.github.com/v3/issues/, usando como base o repositÃ³rio
 do kotlin https://github.com/JetBrains/kotlin
 </p>
 
-- [x] Tela com a lista de issues do repositório
+
+<p align="left">
+  <img src="https://github.com/barbosahub/PJ-Android.issuesgit_api/blob/main/app/src/main/res/drawable/gif.gif" width="200" alt="Issue Api" style=" border: 5px solid #555">
+</p>
+
+- [x] Tela com a lista de issues do repositÃ³rio
 - [x] Tela com mais detalhes do user selecionado
 
 - [x] Kotlin
 - [x] Retrofit2
 - [x] Firebase FCM
-- [ ]  Testes Unitários (JUnit)
+- [ ]  Testes UnitÃ¡rios (JUnit)
 - [ ] MVVM
 - [x] Link para Github
 - [ ] Koin
@@ -29,5 +34,5 @@ do kotlin https://github.com/JetBrains/kotlin
 [![Linkedin Badge](https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/brui/)](https://www.linkedin.com/in/brui/)
 
 ```sh
-Código desenvolvido para fins educativos.
+CÃ³digo desenvolvido para fins educativos.
 ```
