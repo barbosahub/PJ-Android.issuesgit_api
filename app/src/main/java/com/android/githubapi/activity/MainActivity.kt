@@ -37,13 +37,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity(), OnItemSelectedListener,
     NavigationView.OnNavigationItemSelectedListener {
-    //region variables
+
     private var context = this@MainActivity
     lateinit var listView: ListView
     lateinit var navView: NavigationView
     lateinit var pullToRefresh: SwipeRefreshLayout
     lateinit var progressBar: ProgressBar
-    //endregion
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_menu_drawer)
@@ -64,16 +65,19 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
         onTokenRefresh()
     }
 
-    private fun progressBar(isVisible : Boolean){
-        progressBar.isVisible = isVisible
-    }
-
     private fun initComponents(){
+
         listView = findViewById(R.id.listview)
         navView = findViewById<View>(R.id.nav_view) as NavigationView
         pullToRefresh = findViewById<View>(R.id.pulltorefresh) as SwipeRefreshLayout
         progressBar = findViewById<ProgressBar>(R.id.progressBar)
     }
+
+
+    private fun progressBar(isVisible : Boolean){
+        progressBar.isVisible = isVisible
+    }
+
 
     //region drawer
     private fun initDrawer(){
