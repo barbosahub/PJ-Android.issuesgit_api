@@ -11,21 +11,24 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.Window
+import android.view.*
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.githubapi.R
 import com.android.githubapi.adapter.ListAdapter
 import com.android.githubapi.interfaces.IGitApi
 import com.android.githubapi.models.GithubApi
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.iid.FirebaseInstanceId
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -34,46 +37,93 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MainActivity : AppCompatActivity(), OnItemSelectedListener {
+class MainActivity : AppCompatActivity(), OnItemSelectedListener,
+    NavigationView.OnNavigationItemSelectedListener {
     //region variables
     private var dialog: ProgressDialog? = null
     private var listView: ListView? = null
-    var context: Context? = null
-
+    private var context = this@MainActivity
     //endregion
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme_GithubApi)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        context = this@MainActivity
-        listView = findViewById(R.id.listview)
-        findAll()
+        setContentView(R.layout.item_menu_drawer)
+        findViewById()
 
+        initDrawer()
+
+        //region navigation view
+        val nav_view = findViewById<View>(R.id.nav_view) as NavigationView
+        nav_view.setNavigationItemSelectedListener(this)
+        //endregion
+
+        //region pulltorefresh
         val pullToRefresh = findViewById<View>(R.id.pulltorefresh) as SwipeRefreshLayout
-
         pullToRefresh.setOnRefreshListener {
             findAll() // your code
             pullToRefresh.isRefreshing = false
         }
+        //endregion
 
+
+
+
+        findAll()
         onTokenRefresh()
-
-
     }
 
+    private fun findViewById(){
+        listView = findViewById(R.id.listview)
+    }
+
+    //region drawer
+    private fun initDrawer(){
+        val drawerLayout = findViewById<View>(R.id.drawer_Layout) as DrawerLayout
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        val toggle = ActionBarDrawerToggle(this,drawerLayout, toolbar,R.string.Open_Drawer,R.string.Close_Drawer)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val drawerLayout = findViewById<View>(R.id.drawer_Layout) as DrawerLayout
+        when (item.itemId) {
+            R.id.nav_api -> {
+                val viewIntent = Intent(Details.VIEW, Uri.parse("https://docs.github.com/pt/github/managing-your-work-on-github/creating-an-issue"))
+                startActivity(viewIntent)
+            }
+            R.id.nav_git -> {
+                val viewIntent = Intent(Details.VIEW, Uri.parse("https://github.com/barbosahub/PJ-Android.issuesgit_api"))
+                startActivity(viewIntent)
+            }
+            R.id.nav_android -> {
+                val viewIntent = Intent(Details.VIEW, Uri.parse("https://developer.android.com/kotlin"))
+                startActivity(viewIntent)
+            }
+            R.id.nav_retrofit -> {
+                val viewIntent = Intent(Details.VIEW, Uri.parse("https://square.github.io/retrofit/"))
+                startActivity(viewIntent)
+            }
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+    //endregion
+
+    //region firebase cloud message token
     fun onTokenRefresh() {
-        // Get updated InstanceID token.
         val refreshedToken: String? = FirebaseInstanceId.getInstance().getToken()
-
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
         Log.d("Token",refreshedToken.toString())
     }
+    //endregion
 
-    //region listView Data
+    //region listView
     private fun findAll() {
         //region variables
         val logging = HttpLoggingInterceptor()
@@ -106,8 +156,8 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
                     val adapter = ListAdapter(this@MainActivity, list)
                     listView!!.adapter = adapter
 
+                    showToast("Success")
                     listView!!.onItemClickListener =
-
                         AdapterView.OnItemClickListener { adapterView, view, i, l ->
                             val intent = Intent(this@MainActivity, Details::class.java)
                             intent.putExtra(TITLE, list[i].title)
@@ -140,8 +190,7 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
             override fun onFailure(call: Call<List<GithubApi>?>, t: Throwable) {
                 if (dialog!!.isShowing) dialog!!.dismiss()
-                Toast.makeText(this@MainActivity, "error:" + t.message, Toast.LENGTH_SHORT).show()
-                Log.e("OnFailure", t.message!!)
+                showToast(t.message.toString())
             }
         })
         //endregion
@@ -150,8 +199,7 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
     //endregion
 
-
-    //region DownloadImage
+    //region convert image to bitmap
     @SuppressLint("StaticFieldLeak")
     @Suppress("DEPRECATION")
     private inner class DownloadImageFromInternet(var imageView: ImageView) :
@@ -175,10 +223,19 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
     }
     //endregion
 
+    //region toast
+    fun showToast(message:String){
+        Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+    }
+    //endregion
+
+    //region adapter
     override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {}
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+    //endregion
 
+    //region objects
     companion object {
         const val TITLE = "package com.android.githubapi.activity.TITLE"
         const val DATA = "package com.android.githubapi.activity.DATA"
@@ -187,10 +244,8 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
         const val AUTHOR = "package com.android.githubapi.activity.AUTHOR"
         const val URL = "package com.android.githubapi.activity.URL"
     }
+    //endregion
 
 }
 
-private fun <T> Call<T>.enqueue(callback: Callback<List<GithubApi>?>) {
-
-}
 

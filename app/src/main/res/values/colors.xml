@@ -10,6 +10,7 @@
 
     <!-- New Palette -->
     <color name="color_dark_100">#FF302d42</color>
+    <color name="color_dark_200">#2B2935</color>
     <color name="color_blue_100">#FF6a55f8</color>
     <color name="color_pink_0">#FFc946f7</color>
     <color name="color_pink_100">#FFca48f6</color>

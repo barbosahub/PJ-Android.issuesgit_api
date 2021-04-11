@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/menu" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_git"
+            android:icon="@drawable/ic_launcher"
+            android:title="Github Project" />
+        <item
+            android:id="@+id/nav_android"
+            android:icon="@drawable/baseline_description_24"
+            android:title="Documentation - Android" />
+        <item
+            android:id="@+id/nav_api"
+            android:icon="@drawable/baseline_description_24"
+            android:title="Documentation - Api" />
+
+        <item
+            android:id="@+id/nav_retrofit"
+            android:icon="@drawable/baseline_description_24"
+            android:title="Documentation - Retrofit 2" />
+
+    </group>
+</menu>

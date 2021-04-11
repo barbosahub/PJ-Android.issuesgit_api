@@ -6,19 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.MainActivity"
+    android:layout_margin="2dp"
    >
+    
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/AppTheme.GithubApi"
+        android:background="@color/color_dark_100"
+        app:titleTextColor="@color/white"
+
+        app:title="@string/app_name"/>
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/pulltorefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
         android:fillViewport="true" >
 
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="2dp"
                />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

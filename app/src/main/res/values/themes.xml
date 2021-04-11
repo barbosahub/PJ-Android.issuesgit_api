@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.GithubApi" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.GithubApi" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/color_dark_100</item>
@@ -27,4 +27,10 @@
         <item name="android:statusBarColor">@color/color_dark_100</item>
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
+    <style name="AppTheme.Splash.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.Splash.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.Splash.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
