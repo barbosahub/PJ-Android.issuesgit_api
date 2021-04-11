@@ -2,15 +2,12 @@ package com.android.githubapi.activity
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -37,49 +34,45 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity(), OnItemSelectedListener,
     NavigationView.OnNavigationItemSelectedListener {
     //region variables
-    private var listView: ListView? = null
     private var context = this@MainActivity
+    lateinit var listView: ListView
+    lateinit var navView: NavigationView
+    lateinit var pullToRefresh: SwipeRefreshLayout
+    lateinit var progressBar: ProgressBar
     //endregion
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.item_menu_drawer)
-        findViewById()
+
+        initComponents()
         initDrawer()
 
-        //region navigation view
-        val nav_view = findViewById<View>(R.id.nav_view) as NavigationView
-        nav_view.setNavigationItemSelectedListener(this)
-        //endregion
-
-        //region pulltorefresh
-        val pullToRefresh = findViewById<View>(R.id.pulltorefresh) as SwipeRefreshLayout
+        navView.setNavigationItemSelectedListener(this)
 
         pullToRefresh.setOnRefreshListener {
             progressBar(true)
             pullToRefresh.isRefreshing = false
-            findAll()
+            initListView()
         }
-        //endregion
 
         progressBar(true)
-        findAll()
+        initListView()
         onTokenRefresh()
     }
 
     private fun progressBar(isVisible : Boolean){
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar) as ProgressBar
         progressBar.isVisible = isVisible
     }
 
-    private fun findViewById(){
+    private fun initComponents(){
         listView = findViewById(R.id.listview)
+        navView = findViewById<View>(R.id.nav_view) as NavigationView
+        pullToRefresh = findViewById<View>(R.id.pulltorefresh) as SwipeRefreshLayout
+        progressBar = findViewById<ProgressBar>(R.id.progressBar)
     }
 
     //region drawer
@@ -128,7 +121,7 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener,
     //endregion
 
     //region listView
-    private fun findAll() {
+    private fun initListView() {
         //region variables
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)

@@ -16,7 +16,6 @@
         android:theme="@style/AppTheme.GithubApi"
         android:background="@color/color_dark_100"
         app:titleTextColor="@color/white"
-
         app:title="@string/app_name"/>
 
     <ProgressBar
